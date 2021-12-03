@@ -8,12 +8,15 @@ import (
 )
 
 type Error struct {
-	Code    int    `json:"code"`
-	Message string `json:"message"`
+	Code  int      `json:"code"`
+	Error []string `json:"message"`
 }
 
-func ThrowError(w http.ResponseWriter, code int, message string) {
-	completeError := Error{code, message}
+func ThrowError(w http.ResponseWriter, code int, message ...string) {
+	completeError := Error{
+		Code:  code,
+		Error: message,
+	}
 	response, err := json.Marshal(completeError)
 	if err != nil {
 		log.Fatal(err)
